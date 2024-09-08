@@ -4,80 +4,260 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Ordering</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <video controls autoplay muted >
-      <source src="img/ad.mp4">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffc6c6;
+            margin: 0;
+            padding: 0;
+        }
 
-    </video>
-   <h1 style="font-size: 65px;padding: 0;">
-    Pizza
-  </h1>
-  <center>
-    <img align="middle" src="img/pizza.jpg" class="center" style=" height: 450px; padding: 45px; border-radius: 85px;">
-    <button onclick=document.location ='https://wa.me/+919578919756?text=hi%20hi' style="width: 450px; height: 50px; background-color: rgb(201, 47, 47); color: aliceblue; border-radius: 45px; ">
-      Order Now
-    </button>
+        .header {
+            text-align: center;
+            padding: 10px;
+            background-color: #e74c3c;
+            position: fixed;
+            color: white;
+            font-size: 2em;
+            font-weight: bold;
+            width: 100%;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
 
-    <label id="countlabel">0</label>
-    <button id="decreasebtn" class="countB">-</button>&nbsp;
-    <button id="increasebtn" class="CountB">+</button>
-  </center>
-  <style>
-    body{
-      height:auto !important;
-    }
-    #countlabel
-{
-    font-size: 3em;
-    font-family: 'Courier New', Courier, monospace;
-    text-align: center;
-    font-weight: strong;
-    display: block;
-}
+        .video-container {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
 
-.countB
-{
-font-size: 1em;
-color:rgb(0, 0, 0);
-border: 2px solidblack;
-background-color: rgb(255, 167, 178);
-border-radius: 50px;
-transition: background-color 0.1s;
-display: inline-block;
-}
-.countB:hover
-{
-background-color: rgb(255, 0, 0);;
-color:aliceblue
-}
+        video {
+            width: 100%;
+            height: auto;
+            overflow: hidden;
+        }
 
+        .box {
+            width: 500px;
+            margin: 100px auto 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.7);
+            text-align: center;
+        }
 
-  </style>
-  <script>
-    const decrease_btn  = document.getElementById("decreasebtn");
-const increase_btn  = document.getElementById("increasebtn");
+        .box h1 {
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            color: #333;
+        }
 
-const count_label  = document.getElementById("countlabel");
-let count = 0;
+        .pic {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
 
-increase_btn.onclick = function(){
+        .order-btn, .download-btn {
+            width: 450px;
+            height: 50px;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 45px;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 20px;
+        }
 
-    count++;
-    count_label.textContent = count;
-}
+        .order-btn:hover, .download-btn:hover {
+            background-color: #c0392b;
+        }
 
-decrease_btn.onclick = function(){
+        .c {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 2em;
+        }
 
-    count--;
-    if(count<=0){
-        count=0;
-    }
-    count_label.textContent = count;
-}
+        .c1 {
+            font-size: 2em;
+            font-weight: bold;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border: none;
+        }
 
+        .c1:hover {
+            background-color: #c0392b;
+        }
 
-  </script>
+        #countlabel {
+            font-size: 3em;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            font-weight: bold;
+            margin: 0 20px;
+        }
+
+        .bill-btn-container {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+        }
+
+        .download-btn {
+            display: block; /* Always visible */
+            background-color: #3498db;
+        }
+
+        .download-btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* Custom Alert Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .alert-btn {
+            background-color: #e74c3c; /* Alert button color */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .alert-btn:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">Order Your Favorite Pizza!</div>
+
+    <div class="video-container">
+        <video autoplay muted loop>
+            <source src="ad.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div class="box">
+        <h1>Pizza</h1>
+        <img class="pic" src="pizza.jpg" alt="Delicious Pizza">
+        <button class="order-btn" onclick="confirmOrder()">Order Now</button>
+        <div class="c">
+            <button class="c1" id="decreasebtn">-</button>
+            <label id="countlabel">0</label>
+            <button class="c1" id="increasebtn">+</button>
+        </div>
+    </div>
+
+    <!-- Custom Alert Modal -->
+    <div id="custom-alert" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeAlert()">&times;</span>
+            <p id="alert-message"></p>
+            <button class="alert-btn" onclick="closeAlert()">OK</button>
+        </div>
+    </div>
+
+    <script>
+        const decrease_btn = document.getElementById("decreasebtn");
+        const increase_btn = document.getElementById("increasebtn");
+        const count_label = document.getElementById("countlabel");
+        let count = 0;
+        const cost = 115;
+        let quantity = 0;
+
+        increase_btn.onclick = function() {
+            count++;
+            count_label.textContent = count;
+            quantity++;
+        };
+
+        decrease_btn.onclick = function() {
+            count--;
+            if (count < 0) {
+                count = 0;
+            }
+            count_label.textContent = count;
+            quantity = count;
+        };
+
+        function confirmOrder() {
+            if (quantity > 0) {
+                // Redirect to confirmation page with quantity parameter
+                window.location.href = `confirmation.html?quantity=${quantity}`;
+            } else {
+                showAlert("Please add at least one item to your order.");
+            }
+        }
+
+        function showAlert(message) {
+            document.getElementById("alert-message").textContent = message;
+            document.getElementById("custom-alert").style.display = "block";
+        }
+
+        function closeAlert() {
+            document.getElementById("custom-alert").style.display = "none";
+        }
+    </script>
+
 </body>
 </html>
