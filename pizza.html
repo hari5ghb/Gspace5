@@ -3,100 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Ordering Site</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
-    
+    <title>Food Ordering</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffc6c6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            text-align: center;
+            padding: 10px;
+            background-color: #e74c3c;
+            position: fixed;
+            color: white;
+            font-size: 2em;
+            font-weight: bold;
+            width: 100%;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-container {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            overflow: hidden;
+        }
+
+        .box {
+            width: 500px;
+            margin: 100px auto 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.7);
+            text-align: center;
+        }
+
+        .box h1 {
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            color: #333;
+        }
+
+        .pic {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .order-btn, .download-btn {
+            width: 450px;
+            height: 50px;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 45px;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .order-btn:hover, .download-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .c {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 2em;
+        }
+
+        .c1 {
+            font-size: 2em;
+            font-weight: bold;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border: none;
+        }
+
+        .c1:hover {
+            background-color: #c0392b;
+        }
+
+        #countlabel {
+            font-size: 3em;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            font-weight: bold;
+            margin: 0 20px;
+        }
+
+        .bill-btn-container {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+        }
+
+        .download-btn {
+            display: block; /* Always visible */
+            background-color: #3498db;
+        }
+
+        .download-btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* Custom Alert Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .alert-btn {
+            background-color: #e74c3c; /* Alert button color */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .alert-btn:hover {
+            background-color: #c0392b;
+        }
+    </style>
 </head>
 <body>
-    <div class="navbar" style="margin: -9px;">
-        <a href="#home">Flavors & Feasts</a>
-        <a href="#news">Home</a>
-        <div class="dropdown">
-            <button class="dropbtn"><b>Deals</b>
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-                <a href="#">Special deals</a>
-                <a href="#">Super special deals</a>
-                <a href="#">Today's special</a>
-            </div>
+
+    <div class="header">Order Your Favorite Pizza!</div>
+
+    <div class="video-container">
+        <video autoplay muted loop>
+            <source src="img/ad.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div class="box">
+        <h1>Pizza</h1>
+        <img class="pic" src="img/pizza.jpg" alt="Delicious Pizza">
+        <button class="order-btn" onclick="confirmOrder()">Order Now</button>
+        <div class="c">
+            <button class="c1" id="decreasebtn">-</button>
+            <label id="countlabel">0</label>
+            <button class="c1" id="increasebtn">+</button>
         </div>
     </div>
-    <p class="c1">"Experience the joy of every bite with our deliciously crafted meals."</p>
-    <div class="flex-container">
-        <figure class="figure">
-            <a href="pizza.html">
-                <img src="img/pizza.jpg" alt="Pizza">
-            </a>
-            <figcaption>Pizza</figcaption>
-        </figure>
-        <figure class="figure">
-            <a href="salad.html">
-                <img src="img/salad.jpg" alt="Salad">
-            </a>
-            <figcaption>Salad</figcaption>
-        </figure>
-        <figure class="figure">
-            <a href="cake.html">
-                <img src="img/cakedessert.jpg" alt="Cake">
-            </a>
-            <figcaption>Cake</figcaption>
-        </figure>
-        <figure class="figure">
-            <a href="desert.html">
-                <img src="img/desert.jpg" alt="Desert">
-            </a>
-            <figcaption>Desert</figcaption>
-        </figure>
-        <figure class="figure">
-            <a href="beef.html">
-                <img src="img/beef.jpg" alt="Beef">
-            </a>
-            <figcaption>Beef</figcaption>
-        </figure>
-        <figure class="figure">
-            <a href="egg.html">
-                <img src="img/egg.jpg" alt="Egg">
-            </a>
-            <figcaption>Egg</figcaption>
-        </figure>
-        <figure class="figure">
-            <a href="icecream.html">
-                <img src="img/icecream.jpg" alt="Ice Cream">
-            </a>
-            <figcaption>Ice Cream</figcaption>
-        </figure>
-        <figure class="figure">
-            <a href="pancake.html">
-                <img src="img/pancake.jpg" alt="Pancake">
-            </a>
-            <figcaption>Pancake</figcaption>
-        </figure>
-        <figure class="figure">
-            <a href="ramen.html">
-                <img src="img/ramen.jpg" alt="Ramen">
-            </a>
-            <figcaption>Ramen</figcaption>
-        </figure>
-        <figure class="figure">
-            <a href="taco.html">
-                <img src="img/taco.jpg" alt="Taco">
-            </a>
-            <figcaption>Taco</figcaption>
-        </figure>
-        <figure class="figure">
-            <a href="sandwich.html">
-                <img src="img/sandwich.jpg" alt="Sandwich">
-            </a>
-            <figcaption>Sandwich</figcaption>
-        </figure>
-        <figure class="figure">
-            <a href="sandwich.html">
-                <img src="img/sandwich.jpg" alt="Sandwich">
-            </a>
-            <figcaption>Sandwich</figcaption>
-        </figure>
+
+    <!-- Custom Alert Modal -->
+    <div id="custom-alert" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeAlert()">&times;</span>
+            <p id="alert-message"></p>
+            <button class="alert-btn" onclick="closeAlert()">OK</button>
+        </div>
     </div>
+
+    <script>
+        const decrease_btn = document.getElementById("decreasebtn");
+        const increase_btn = document.getElementById("increasebtn");
+        const count_label = document.getElementById("countlabel");
+        let count = 0;
+        const cost = 115;
+        let quantity = 0;
+
+        increase_btn.onclick = function() {
+            count++;
+            count_label.textContent = count;
+            quantity++;
+        };
+
+        decrease_btn.onclick = function() {
+            count--;
+            if (count < 0) {
+                count = 0;
+            }
+            count_label.textContent = count;
+            quantity = count;
+        };
+
+        function confirmOrder() {
+            if (quantity > 0) {
+                // Redirect to confirmation page with quantity parameter
+                window.location.href = `confirmation.html?quantity=${quantity}`;
+            } else {
+                showAlert("Please add at least one item to your order.");
+            }
+        }
+
+        function showAlert(message) {
+            document.getElementById("alert-message").textContent = message;
+            document.getElementById("custom-alert").style.display = "block";
+        }
+
+        function closeAlert() {
+            document.getElementById("custom-alert").style.display = "none";
+        }
+    </script>
+
 </body>
 </html>
